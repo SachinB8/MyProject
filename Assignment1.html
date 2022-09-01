@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid #000000;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="table" style="border: solid 1px">
+    </div>
+    <script>
+        function getData() {
+            //Creating XMLHttpRequest object
+            let xmlObject = new XMLHttpRequest()
+            xmlObject.open('GET', 'Assignment1.JSON', true)
+
+            //using onload to wait until our json loads 
+
+            xmlObject.onload = () => {
+                //console.log(xmlObject.responseText) //returns a json object
+                let result = JSON.parse(xmlObject.responseText) //converting json object to javascript object 
+                tableView(result)
+            }
+            //Sending request
+            xmlObject.send()
+
+            let str = "";
+            //Defining function to convert json object to table view in html
+            function tableView(jsonObject) {
+                jsonObject.forEach((data) => {
+
+                    str += `<table>
+                                <tr>
+                                    <th>name</th>
+                                    <th>age</th>
+                                    <th>college</th>
+                                    <th>degree</th>
+                                    <th>branch</th>
+                                    <th>yob</th>
+                                </tr>
+                                <tr>
+                                    <td>${data.name}</td>
+                                    <td>${data.age}</td>
+                                    <td>${data.college}</td>
+                                    <td>${data.degree}</td>
+                                    <td>${data.branch}</td>
+                                    <td>${data.yob}</td>
+                                </tr>                 
+                        </table>`
+                    //Adding our data html to div 
+                    document.getElementById("table").innerHTML = str
+                });
+            }
+        }
+        //Calling getData()
+        getData()
+
+    </script>
+</body>
+
+</html>

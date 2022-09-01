@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" id="textbox" placeholder="Enter UserID">
+    <input type="submit" id="btnSubmit" value="Get Details">
+    <!-- Creating div to contain user details later -->
+    <div id="container"></div>
+
+    <script>
+        //defining event listener for submit button
+        let x = document.getElementById("btnSubmit")
+        x.addEventListener("click", fetchData)
+
+
+        function fetchData() {
+            //Geting ID from textbox
+            let userInput = document.getElementById("textbox").value
+            //Fetching API get method and resolving promise. Then parsing json and passing javascript object to queryData function
+            fetch('https://jsonplaceholder.typicode.com/users/').then((response) => response.json()).then((data) => queryData(data, userInput))
+        }
+
+
+        //Function to query target user_id and saving it has html within the div container
+        function queryData(data, userInput) {
+            data.forEach(element => {
+                if (element.id == userInput) {
+                    document.getElementById("container").innerHTML = `
+                    <h1> Found Details </h1>\
+                    <p1 style="font-weight: 900">Id: </p1>${element.id} <br>\
+                    <p1 style="font-weight: 900">Name: </p1>${element.name} <br>\
+                    <p1 style="font-weight: 900">Username: </p1>${element.username} <br>\
+                    <p1 style="font-weight: 900">Email: </p1>${element.email} <br>\
+                    <p1 style="font-weight: 900">Address: </p1>${element.address.street}, ${element.address.suite}, ${element.address.city}, ${element.address.street},${element.address.suite}, ${element.address.city}, ${element.address.zipcode}<br>\
+                    <p1 style="font-weight: 900">Geo: </p1>${element.address.geo.lat}, ${element.address.geo.lng} <br>\
+                    <p1 style="font-weight: 900">Phone: </p1>${element.phone} <br>\
+                    <p1 style="font-weight: 900">Website: </p1>${element.website} <br>\
+                    <p1 style="font-weight: 900">Company: 1) Name: </p1>${element.company.name} <p1 style="font-weight: 900">2) Catch Phrase: </p1>${element.company.catchPhrase} <p1 style="font-weight: 900">3) BS: </p1>${element.company.bs} <br>\         
+                    `
+                }
+
+                
+            });
+        }
+    </script>
+</body>
+
+</html>
